@@ -1,4 +1,4 @@
-package study.practice.cafe;
+package study.practice.designPattern.strategy;
 
 public class MilkTea implements MenuStrategy {
     private String temperature;

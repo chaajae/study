@@ -1,4 +1,4 @@
-package study.practice.cafe;
+package study.practice.designPattern.strategy;
 
 public interface MenuStrategy {
     void brew();

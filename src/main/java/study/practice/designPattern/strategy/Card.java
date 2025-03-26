@@ -1,4 +1,4 @@
-package study.practice.cafe;
+package study.practice.designPattern.strategy;
 
 public class Card implements PaymentStrategy{
     private String cardCompany;
