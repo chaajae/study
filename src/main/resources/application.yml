@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://database-1.cluster-c1dj4dksxcr3.ap-northeast-1.rds.amazonaws.com:3306/BIZWIZ_MOCKUP
+    username: admin
+    password: q1w2e3QWE
+    driver-class-name: org.mariadb.jdbc.Driver
+
+server:
+  port: 8085
