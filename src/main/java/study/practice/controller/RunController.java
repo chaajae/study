@@ -3,11 +3,13 @@ package study.practice.controller;
 import study.practice.designPattern.builder.Datas;
 import study.practice.designPattern.builder.Director;
 import study.practice.designPattern.builder.JSONBuilder;
+import study.practice.designPattern.inheritance.Child;
 import study.practice.designPattern.strategy.*;
 import study.practice.designPattern.builder.*;
-import study.practice.designPattern.templateMethod.FileProcessor;
 import study.practice.designPattern.templateMethod.MultiplyFileProcessor;
 import study.practice.designPattern.templateMethod.PlusFileProcessor;
+
+import java.util.Arrays;
 
 public class RunController {
 
@@ -62,4 +64,13 @@ public class RunController {
         MultiplyFileProcessor multiplyProcessor = new MultiplyFileProcessor(path);
         System.out.println("MULTIPLY RESULT : " + multiplyProcessor.process());
     }
+
+    public void runInheritance() {
+        Child child = new Child();
+        child.addAll(Arrays.asList("가","나","다","라","마"));
+        child.add("바");
+        System.out.println(child.getCount());
+    }
+
+
 }
