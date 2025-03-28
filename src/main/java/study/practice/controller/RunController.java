@@ -16,15 +16,15 @@ public class RunController {
     public void runBuilderPattern(){
         Datas datas = new Datas("홍길동", "영등포");
 
-        Builder plain = new PlainTextBuilder(datas);
+        Builder plainText = new PlainTextBuilder(datas);
         Builder json = new JSONBuilder(datas);
         Builder xml = new XMLBuilder(datas);
 
-        String plainValue = new Director(plain).build();
+        String plainTextValue = new Director(plainText).build();
         String jsonValue = new Director(json).build();
         String xmlValue = new Director(xml).build();
 
-        System.out.println(plainValue);
+        System.out.println(plainTextValue);
         System.out.println(jsonValue);
         System.out.println(xmlValue);
     }
