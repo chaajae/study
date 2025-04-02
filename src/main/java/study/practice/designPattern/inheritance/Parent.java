@@ -22,4 +22,8 @@ public class Parent {
     public int getCount(){
         return num;
     }
+
+    public void test() {
+
+    }
 }

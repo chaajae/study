@@ -4,12 +4,30 @@ import study.practice.designPattern.builder.Datas;
 import study.practice.designPattern.builder.Director;
 import study.practice.designPattern.builder.JSONBuilder;
 import study.practice.designPattern.inheritance.Child;
+import study.practice.designPattern.inheritance.Parent;
+import study.practice.designPattern.proxy.ISubject;
+import study.practice.designPattern.proxy.Protection.ProtectionProxy;
+import study.practice.designPattern.proxy.Protection.implement.*;
+import study.practice.designPattern.proxy.dynamic.Animal;
+import study.practice.designPattern.proxy.dynamic.Tiger;
+import study.practice.designPattern.proxy.logging.LoggingProxy;
+import study.practice.designPattern.proxy.normal.NormalProxy;
+import study.practice.designPattern.proxy.RealSubject;
+import study.practice.designPattern.proxy.virtual.implement.HighResolutionImage;
+import study.practice.designPattern.proxy.virtual.implement.IImage;
+import study.practice.designPattern.proxy.virtual.implement.ImageProxy;
+import study.practice.designPattern.proxy.virtual.VirtualProxy;
 import study.practice.designPattern.strategy.*;
 import study.practice.designPattern.builder.*;
 import study.practice.designPattern.templateMethod.MultiplyFileProcessor;
 import study.practice.designPattern.templateMethod.PlusFileProcessor;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class RunController {
 
@@ -66,11 +84,96 @@ public class RunController {
     }
 
     public void runInheritance() {
-        Child child = new Child();
-        child.addAll(Arrays.asList("가","나","다","라","마"));
-        child.add("바");
-        System.out.println(child.getCount());
+        Parent p = new Child();
+        p.add("A");
+        System.out.println(p.getCount());
     }
+
+    public void runNormalProxy(){
+        ISubject sub = new NormalProxy(new RealSubject());
+        sub.action();
+    }
+
+    public void runVirtualProxy(){
+        ISubject sub = new VirtualProxy();
+        sub.action();
+    }
+
+    public void runProtectionProxy() {
+        ISubject sub = new ProtectionProxy(new RealSubject(), true);
+        sub.action();
+    }
+
+    public void runLoggingProxy() {
+        ISubject sub = new LoggingProxy(new RealSubject());
+        sub.action();
+    }
+
+    public void runLoadImage() {
+        HighResolutionImage image1 = new HighResolutionImage("./img/고해상도 이미지1");
+        HighResolutionImage image2 = new HighResolutionImage("./img/고해상도 이미지2");
+        HighResolutionImage image3 = new HighResolutionImage("./img/고해상도 이미지3");
+        image2.showImage();
+    }
+
+    public void runLoadImageByVirtualProxy() {
+        IImage imageProxy1 = new ImageProxy("./img/고해상도 이미지1");
+        IImage imageProxy2 = new ImageProxy("./img/고해상도 이미지2");
+        IImage imageProxy3 = new ImageProxy("./img/고해상도 이미지3");
+        imageProxy2.showImage();
+    }
+
+    public void runPrintEmployees() {
+        Employee CTO = new Employee("Dragon Jung", RESPONSIBILITY.DIRECTOR);
+        Employee devManager = new Employee("Cats Chang", RESPONSIBILITY.MANAGER);
+        Employee financeManager = new Employee("Dell Choi", RESPONSIBILITY.MANAGER);
+        Employee devStaff = new Employee("Dark Kim", RESPONSIBILITY.STAFF);
+        Employee financeStaff = new Employee("Pal Yoo", RESPONSIBILITY.STAFF);
+
+        List<Employee> employees = Arrays.asList(CTO, devManager, financeManager, devStaff, financeStaff);
+
+        List<IEmployee> protectedEmployees = new ArrayList<>();
+        for (Employee e : employees) {
+            protectedEmployees.add(new ProtectedEmployee((IEmployee) e));
+        }
+
+        Employee me = new Employee("me", RESPONSIBILITY.STAFF);
+        System.out.println("\n================================================================");
+        System.out.println("시나리오1. 일개 사원인 내가 회사 인원 인사 정보 조회");
+        System.out.println("================================================================");
+        PrintEmployeeInfo view = new PrintEmployeeInfo(me);
+        view.printAllInfo(protectedEmployees);
+
+        System.out.println("\n================================================================");
+        System.out.println("시나리오2. 과장이 회사 인원 인사 정보 조회");
+        System.out.println("================================================================");
+        PrintEmployeeInfo view2 = new PrintEmployeeInfo(devManager);
+        view2.printAllInfo(protectedEmployees);
+
+        System.out.println("\n================================================================");
+        System.out.println("시나리오3. 상무가 회사 인원 인사 정보 조회");
+        System.out.println("================================================================");
+        PrintEmployeeInfo view3 = new PrintEmployeeInfo(CTO);
+        view3.printAllInfo(protectedEmployees);
+    }
+
+    public void runDynamicProxy(){
+        Animal tiger = (Animal) Proxy.newProxyInstance(
+                Animal.class.getClassLoader(),
+                new Class[]{Animal.class},
+                (proxy, method, args) -> {
+                    Object target = new Tiger();
+                    System.out.println("eat 메소드 호출 전");
+                    Object result = method.invoke(target, args);
+                    System.out.println("eat 메소드 호출 후");
+                    return result;
+                }
+        );
+
+        tiger.eat();
+    }
+
+
 
 
 }
