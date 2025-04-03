@@ -1,8 +1,11 @@
 package study.practice.controller;
 
+import study.practice.designPattern.adaptor.*;
 import study.practice.designPattern.builder.Datas;
 import study.practice.designPattern.builder.Director;
 import study.practice.designPattern.builder.JSONBuilder;
+import study.practice.designPattern.decorator.practical.*;
+import study.practice.designPattern.decorator.weapon.*;
 import study.practice.designPattern.inheritance.Child;
 import study.practice.designPattern.inheritance.Parent;
 import study.practice.designPattern.proxy.ISubject;
@@ -19,11 +22,10 @@ import study.practice.designPattern.proxy.virtual.implement.ImageProxy;
 import study.practice.designPattern.proxy.virtual.VirtualProxy;
 import study.practice.designPattern.strategy.*;
 import study.practice.designPattern.builder.*;
+import study.practice.designPattern.templateMethod.FileProcessor;
 import study.practice.designPattern.templateMethod.MultiplyFileProcessor;
 import study.practice.designPattern.templateMethod.PlusFileProcessor;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,10 +78,10 @@ public class RunController {
     public void runTemplateMethodPattern(){
         String path = "calculate.txt";
         System.out.println("PATH : " + path);
-        PlusFileProcessor plusProcessor = new PlusFileProcessor(path);
+        FileProcessor plusProcessor = new PlusFileProcessor(path);
         System.out.println("PLUS RESULT : " + plusProcessor.process());
 
-        MultiplyFileProcessor multiplyProcessor = new MultiplyFileProcessor(path);
+        FileProcessor multiplyProcessor = new MultiplyFileProcessor(path);
         System.out.println("MULTIPLY RESULT : " + multiplyProcessor.process());
     }
 
@@ -173,7 +175,37 @@ public class RunController {
         tiger.eat();
     }
 
+    public void runAdaptor(){
+        ISortEngine adaptor = new SortEngineAdaptor(new A_SortEngine(), new B_SortEngine());
+        SortingMachine machine = new SortingMachine();
+        machine.setEngine(adaptor);
+        machine.sortingRun();
+    }
 
+    public void runDecorator(){
+        System.out.println("====== 유탄 발사기 =======");
+        Weapon generade_rifle = new Grenade(new BaseWeapon());
+        generade_rifle.aim_and_fire();
 
+        System.out.println("\n====== 개머리판 장착, 스코프 장착 =======");
+        Weapon buttstock_scoped_rifle = new Buttstock(new Scoped(new BaseWeapon()));
+        buttstock_scoped_rifle.aim_and_fire();
+
+        System.out.println("\n====== 유탄 발사기 + 개머리판 + 스코프 장착 =======");
+        Weapon buttstock_scoped_generade_rifle = new Buttstock(new Scoped(new Grenade(new BaseWeapon())));
+        buttstock_scoped_generade_rifle.aim_and_fire();
+    }
+
+    public void runPracticalDecorator(){
+        IData data = new MyData();
+        IData data1 = new TimerMeasureDecorator(data);
+        data1.setData(1);
+
+        IData data2 = new SynchronizedDecorator(new TimerMeasureDecorator(data));
+        data2.setData(1);
+
+        IData data3 = new TimerMeasureDecorator(new SynchronizedDecorator(data));
+        data3.setData(1);
+    }
 
 }
