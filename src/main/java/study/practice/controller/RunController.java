@@ -5,6 +5,10 @@ import study.practice.designPattern.builder.*;
 import study.practice.designPattern.decorator.practical.*;
 import study.practice.designPattern.decorator.weapon.*;
 import study.practice.designPattern.inheritance.*;
+import study.practice.designPattern.iterator.ConcreteAggregate;
+import study.practice.designPattern.iterator.Iterator;
+import study.practice.designPattern.iterator.board.Board;
+import study.practice.designPattern.iterator.board.Post;
 import study.practice.designPattern.observer.*;
 import study.practice.designPattern.observer.weather.*;
 import study.practice.designPattern.proxy.*;
@@ -18,10 +22,12 @@ import study.practice.designPattern.proxy.virtual.implement.*;
 import study.practice.designPattern.proxy.virtual.VirtualProxy;
 import study.practice.designPattern.strategy.*;
 import study.practice.designPattern.templateMethod.*;
+import study.practice.etc.gson.DateTimeObj;
+import study.practice.etc.function.Functions;
+
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 public class RunController {
 
@@ -231,5 +237,47 @@ public class RunController {
         api.measurementsChanged();
         api.measurementsChanged();
     }
+
+    public void runIterator(){
+        ConcreteAggregate aggregate = new ConcreteAggregate(5);
+
+        aggregate.add(1);
+        aggregate.add(2);
+        aggregate.add(3);
+        aggregate.add(4);
+        aggregate.add(5);
+
+        Iterator iter = aggregate.iterator();
+        while (iter.hasNext()){
+            System.out.printf("%s -> ", iter.next());
+        }
+
+    }
+
+    public void runBoardByIterator(){
+        Board board = new Board();
+
+        board.addPost("디자인 패턴 강의 리뷰", LocalDate.of(2024, 8, 30));
+        board.addPost("Iterator 패턴 잘 아시는분", LocalDate.of(2024, 11, 20));
+        board.addPost("에러 로그 분석좀 부탁드립니다.", LocalDate.of(2023, 5, 16));
+
+        print(board.getListPostIterator());
+        print(board.getDatePostIterator());
+    }
+
+    public void print(java.util.Iterator<Post> iterator){
+        java.util.Iterator<Post> iter = iterator;
+        while (iter.hasNext()){
+            Post post = iter.next();
+            System.out.println(post.title + " / " + post.date);
+        }
+    }
+
+    public void runTypeConvert(){
+        String str = "{\"date\": \"2025-01-01\" ,\"time\": \"2025-03-12 11:23:00\"}";
+        DateTimeObj obj = Functions.typeConvert(str, DateTimeObj.class);
+        System.out.println(obj);
+    }
+
 
 }
