@@ -1,31 +1,23 @@
 package study.practice.controller;
 
 import study.practice.designPattern.adaptor.*;
-import study.practice.designPattern.builder.Datas;
-import study.practice.designPattern.builder.Director;
-import study.practice.designPattern.builder.JSONBuilder;
+import study.practice.designPattern.builder.*;
 import study.practice.designPattern.decorator.practical.*;
 import study.practice.designPattern.decorator.weapon.*;
-import study.practice.designPattern.inheritance.Child;
-import study.practice.designPattern.inheritance.Parent;
+import study.practice.designPattern.inheritance.*;
+import study.practice.designPattern.observer.*;
+import study.practice.designPattern.observer.weather.*;
+import study.practice.designPattern.proxy.*;
 import study.practice.designPattern.proxy.ISubject;
 import study.practice.designPattern.proxy.Protection.ProtectionProxy;
 import study.practice.designPattern.proxy.Protection.implement.*;
-import study.practice.designPattern.proxy.dynamic.Animal;
-import study.practice.designPattern.proxy.dynamic.Tiger;
+import study.practice.designPattern.proxy.dynamic.*;
 import study.practice.designPattern.proxy.logging.LoggingProxy;
 import study.practice.designPattern.proxy.normal.NormalProxy;
-import study.practice.designPattern.proxy.RealSubject;
-import study.practice.designPattern.proxy.virtual.implement.HighResolutionImage;
-import study.practice.designPattern.proxy.virtual.implement.IImage;
-import study.practice.designPattern.proxy.virtual.implement.ImageProxy;
+import study.practice.designPattern.proxy.virtual.implement.*;
 import study.practice.designPattern.proxy.virtual.VirtualProxy;
 import study.practice.designPattern.strategy.*;
-import study.practice.designPattern.builder.*;
-import study.practice.designPattern.templateMethod.FileProcessor;
-import study.practice.designPattern.templateMethod.MultiplyFileProcessor;
-import study.practice.designPattern.templateMethod.PlusFileProcessor;
-
+import study.practice.designPattern.templateMethod.*;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +52,7 @@ public class RunController {
                 .payments(new Cash())
                 .build();
 
-        Cafe mileTea = Cafe.builder()
+        Cafe milkTea = Cafe.builder()
                 .menu(new MilkTea("아이스"))
                 .payments(new Crypto("업비트"))
                 .build();
@@ -71,7 +63,7 @@ public class RunController {
         latte.order();     // 주문하신 핸드 드립 뜨거운 라떼 나왔습니다.
         // 현금 결제가 완료되었습니다.
 
-        mileTea.order();   // 주문하신 아이스 밀크티 나왔습니다.
+        milkTea.order();   // 주문하신 아이스 밀크티 나왔습니다.
         // 업비트 거래소에서 암호화페 결제가 완료되었습니다.
     }
 
@@ -171,7 +163,6 @@ public class RunController {
                     return result;
                 }
         );
-
         tiger.eat();
     }
 
@@ -206,6 +197,39 @@ public class RunController {
 
         IData data3 = new TimerMeasureDecorator(new SynchronizedDecorator(data));
         data3.setData(1);
+    }
+
+    public void runObserver(){
+        study.practice.designPattern.observer.ISubject publisher = new ConcreteSubject();
+
+        IObserver o1 = new ObserverA();
+        IObserver o2 = new ObserverB();
+
+        publisher.registerObserver(o1);
+        publisher.registerObserver(o2);
+
+        publisher.notifyObserver();
+
+        publisher.removeObserver(o2);
+
+        publisher.notifyObserver();
+    }
+
+    public void runWeatherByObserver(){
+        WeatherAPI api = new WeatherAPI();
+        WeatherObserver user1 = new KoreanUser("홍길동");
+        WeatherObserver user2 = new KoreanUser("이순신");
+        WeatherObserver monitor = new Monitoring("기상청");
+        WeatherObserver naver = new CompanyAPI("네이버");
+
+        api.registerObserver(user1);
+        api.registerObserver(user2);
+        api.registerObserver(monitor);
+        api.registerObserver(naver);
+        api.removeObserver(user1);
+
+        api.measurementsChanged();
+        api.measurementsChanged();
     }
 
 }
