@@ -2,8 +2,25 @@ package study.practice.controller;
 
 import study.practice.designPattern.adaptor.*;
 import study.practice.designPattern.builder.*;
+import study.practice.designPattern.chainOfResponsibility.login.*;
+import study.practice.designPattern.chainOfResponsibility.urlParser.*;
+import study.practice.designPattern.composite.Composite;
+import study.practice.designPattern.composite.Leaf;
+import study.practice.designPattern.composite.directory.File;
+import study.practice.designPattern.composite.directory.Folder;
+import study.practice.designPattern.composite.practical.Bag;
+import study.practice.designPattern.composite.practical.Item;
+import study.practice.designPattern.composite.practical.ItemComponent;
 import study.practice.designPattern.decorator.practical.*;
 import study.practice.designPattern.decorator.weapon.*;
+import study.practice.designPattern.dynamicFactory.DShape;
+import study.practice.designPattern.dynamicFactory.DTriangle;
+import study.practice.designPattern.dynamicFactory.DynamicShapeFactory;
+import study.practice.designPattern.enumFactoryMethod.EnumShapeFactory;
+import study.practice.designPattern.enumFactoryMethod.Shape;
+import study.practice.designPattern.facade.*;
+import study.practice.designPattern.flyweight.Memory;
+import study.practice.designPattern.flyweight.Terrain;
 import study.practice.designPattern.inheritance.*;
 import study.practice.designPattern.iterator.ConcreteAggregate;
 import study.practice.designPattern.iterator.Iterator;
@@ -21,10 +38,14 @@ import study.practice.designPattern.proxy.normal.NormalProxy;
 import study.practice.designPattern.proxy.virtual.implement.*;
 import study.practice.designPattern.proxy.virtual.VirtualProxy;
 import study.practice.designPattern.strategy.*;
+import study.practice.designPattern.templateCallback.IAdd;
 import study.practice.designPattern.templateMethod.*;
 import study.practice.etc.gson.DateTimeObj;
 import study.practice.etc.function.Functions;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Proxy;
 import java.time.LocalDate;
 import java.util.*;
@@ -278,6 +299,247 @@ public class RunController {
         DateTimeObj obj = Functions.typeConvert(str, DateTimeObj.class);
         System.out.println(obj);
     }
+
+    public void runFacadePrevious(){
+        DBMS dbms = new DBMS();
+        dbms.put("홍길동", new Row("홍길동", "1890-02-14", "honggildong@naver.com"));
+        dbms.put("임꺽정", new Row("임꺽정", "1820-11-02", "imgguckjong@naver.com"));
+        dbms.put("주몽", new Row("주몽", "710-08-27", "jumong@naver.com"));
+
+        Cashe cashe = new Cashe();
+
+        String name= "홍길동";
+        Row row = cashe.get(name);
+
+        if (row == null) {
+            row = dbms.query(name);
+            if(row != null){
+                cashe.put(row);
+            }
+        }
+
+        if(row != null){
+            Message message = new Message(row);
+            System.out.println(message.makeName());
+            System.out.println(message.makeBirthday());
+            System.out.println(message.makeEmail());
+        }else{
+            System.out.println(name + "가 데이터베이스에 존재하지 않습니다.");
+        }
+    }
+
+    public void runFacade(){
+        Facade facade = new Facade();
+        facade.insert();
+
+        String name = "홍길동";
+        facade.run(name);
+    }
+
+    public void runFlyweight(){
+        Terrain terrain = new Terrain();
+
+        for (int i = 0; i < 5; i++) {
+            terrain.render(
+                    "Oak",
+                    Math.random() * Terrain.CANVAS_SIZE,
+                    Math.random() * Terrain.CANVAS_SIZE
+            );
+        }
+        for (int i = 0; i < 5; i++) {
+            terrain.render(
+                    "Acacia",
+                    Math.random() * Terrain.CANVAS_SIZE,
+                    Math.random() * Terrain.CANVAS_SIZE
+            );
+        }
+
+        for (int i = 0; i < 5; i++) {
+            terrain.render(
+                    "Jungle",
+                    Math.random() * Terrain.CANVAS_SIZE,
+                    Math.random() * Terrain.CANVAS_SIZE
+            );
+        }
+
+        Memory.print();
+    }
+
+    public void runComposite(){
+        Composite composite1 = new Composite();
+
+        Leaf leaf1 = new Leaf();
+        Composite composite2 = new Composite();
+
+        composite1.add(leaf1);
+        composite1.add(composite2);
+
+        Leaf leaf2 = new Leaf();
+        Leaf leaf3 = new Leaf();
+        Leaf leaf4 = new Leaf();
+
+        composite2.add(leaf2);
+        composite2.add(leaf3);
+        composite2.add(leaf4);
+
+        composite1.operation();
+    }
+
+    public void runPracticalComposite(){
+        Bag bag_main = new Bag("메인 가방");
+
+        Item armor = new Item("갑옷", 250);
+        Item sword = new Item("장검", 500);
+
+        bag_main.add(armor);
+        bag_main.add(sword);
+
+        Bag bag_food = new Bag("음식 가방");
+
+        Item apple = new Item("사과", 400);
+        Item banana = new Item("바나나", 130);
+
+        bag_food.add(apple);
+        bag_food.add(banana);
+
+        bag_main.add(bag_food);
+
+        printPrice(bag_main);
+        printPrice(bag_food);
+    }
+
+    public void printPrice(ItemComponent bag){
+        int result = bag.getPrice();
+        System.out.println(bag.getName() + "의 아이템 총합 : " + result + " 골드");
+    }
+
+    public void runDirectoryComposite(){
+        Folder root = new Folder("root");
+
+        File file1 = new File("file1", 10);
+        Folder sub1 = new Folder("sub1");
+        Folder sub2 = new Folder("sub2");
+
+        root.add(sub1);
+        root.add(file1);
+        root.add(sub2);
+
+        File file11 = new File("file11", 10);
+        File file12 = new File("file12", 10);
+
+        sub1.add(file11);
+        sub1.add(file12);
+
+        File file21 = new File("file21", 10);
+        sub2.add(file21);
+
+        root.print();
+    }
+
+    public void runUrlInfo(){
+        String url1 = "http://www.youtube.com:80";
+        System.out.println("INPUT: " + url1);
+        UrlParser.run(url1);
+
+        String url2 = "https://www.naver.com:443";
+        System.out.println("INPUT: " + url2);
+        UrlParser.run(url2);
+
+        String url3 = "http://localhost:8080";
+        System.out.println("INPUT: " + url3);
+        UrlParser.run(url3);
+    }
+
+    public void runUrlParserUseCOR(){
+        Handler handler1 = new ProtocolHandler();
+        Handler handler2 = new DomainHandler();
+        Handler handler3 = new PortHandler();
+
+        handler1.setNext(handler2).setNext(handler3);
+
+        String url1 = "http://www.youtube.com:80";
+        System.out.println("INPUT: " + url1);
+        handler1.run(url1);
+
+        String url2 = "https://www.naver.com:443";
+        System.out.println("INPUT: " + url2);
+        handler1.run(url2);
+
+        String url3 = "http://localhost:8080";
+        System.out.println("INPUT: " + url3);
+        handler1.run(url3);
+    }
+
+    public void runLoginUseCOR() {
+        try {
+            Server server = new Server();
+            server.register("kim@naver.com", "12345");
+            server.register("chajy95@naver.com", "54321");
+            server.register("lee@naver.com", "15243");
+
+            LimitLoginAttemptMiddleware middleware1 = new LimitLoginAttemptMiddleware();
+            AuthorizeMiddleware middleware2 = new AuthorizeMiddleware(server);
+            AuthenticationMiddleware middleware3 = new AuthenticationMiddleware();
+            LoggingMiddleware middleware4 = new LoggingMiddleware();
+
+            middleware1.setNext(middleware2)
+                    .setNext(middleware3)
+                    .setNext(middleware4);
+
+            do {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                System.out.print("\nEmail : ");
+                String email = reader.readLine();
+                System.out.print("Password : ");
+                String password = reader.readLine();
+
+                short result = middleware1.check(email, password);
+
+                if(result == -2){
+                    throw new RuntimeException("로그인 시도 횟수 초과로 프로그램을 종료합니다.");
+                }else if(result == -1){
+                    break;
+                }else if(result == 0){
+                    continue;
+                }
+
+            }while (true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void runEnumFactoryMethod(){
+        Shape rectangle = EnumShapeFactory.RECTANGLE.create("red");
+        rectangle.draw();
+
+        Shape circle = EnumShapeFactory.CIRCLE.create("blue");
+        circle.draw();
+    }
+
+    public void runDynamicFactory(){
+        DShape rectangle = DynamicShapeFactory.create("Rectangle", "red");
+        rectangle.draw();
+
+        DShape circle = DynamicShapeFactory.create("Circle", "blue");
+        circle.draw();
+
+        DynamicShapeFactory.registerType("Triangle", DTriangle.class);
+        DShape triangle = DynamicShapeFactory.create("Triangle", "green");
+        triangle.draw();
+
+    }
+
+    public void runCallbackTest(){
+        int n = result((x, y) -> x + y);
+        System.out.println(n);
+    }
+
+    public int result(IAdd lamda){
+        return lamda.add(1,2);
+    }
+
+
 
 
 }
