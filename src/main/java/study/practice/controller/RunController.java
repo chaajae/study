@@ -1,5 +1,6 @@
 package study.practice.controller;
 
+import study.practice.algorithm.Algorithm;
 import study.practice.designPattern.adaptor.*;
 import study.practice.designPattern.builder.*;
 import study.practice.designPattern.chainOfResponsibility.login.*;
@@ -37,20 +38,30 @@ import study.practice.designPattern.proxy.logging.LoggingProxy;
 import study.practice.designPattern.proxy.normal.NormalProxy;
 import study.practice.designPattern.proxy.virtual.implement.*;
 import study.practice.designPattern.proxy.virtual.VirtualProxy;
+import study.practice.designPattern.staticFactoryMethod.Book;
+import study.practice.designPattern.staticFactoryMethod.Car;
+import study.practice.designPattern.staticFactoryMethod.SmartPhone;
+import study.practice.designPattern.staticFactoryMethod.grade.GradeCalculator;
+import study.practice.designPattern.staticFactoryMethod.grade.MemberGrade;
 import study.practice.designPattern.strategy.*;
-import study.practice.designPattern.templateCallback.IAdd;
+import study.practice.designPattern.templateCallback.TestTemplate;
+import study.practice.designPattern.templateCallback.practical.OperationTemplate;
+import study.practice.designPattern.templateCallback.strategy.*;
 import study.practice.designPattern.templateMethod.*;
 import study.practice.etc.gson.DateTimeObj;
 import study.practice.etc.function.Functions;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Proxy;
 import java.time.LocalDate;
 import java.util.*;
 
 public class RunController {
+
+    public void runAlgorithm(){
+        Algorithm.BUBBLE_SORT.run();
+    }
 
     public void runBuilderPattern(){
         Datas datas = new Datas("홍길동", "영등포");
@@ -530,14 +541,83 @@ public class RunController {
 
     }
 
-    public void runCallbackTest(){
-        int n = result((x, y) -> x + y);
-        System.out.println(n);
+    public void runCallback(){
+        int x = 100;
+        int y = 20;
+        TestTemplate t = new TestTemplate();
+        int result = t.workflow(e -> e * e);
+
+        System.out.println(result);
     }
 
-    public int result(IAdd lamda){
-        return lamda.add(1,2);
+    public void runOperationStrategy(){
+        int x = 100;
+        int y = 30;
+
+        OperationContext context = new OperationContext();
+
+        context.setOperation(new Plus());
+        System.out.println(context.calculate(x,y));
+
+        context.setOperation(new Sub());
+        System.out.println(context.calculate(x,y));
+
+        context.setOperation(new Multi());
+        System.out.println(context.calculate(x,y));
+
+        context.setOperation(new Divide());
+        System.out.println(context.calculate(x,y));
+
     }
+
+    public void runOperationCallback(){
+        int x = 100;
+        int y= 30;
+
+        OperationTemplate template = new OperationTemplate();
+        System.out.println(template.calculate(x, y, (x1, y1) -> x1 + y1));
+        System.out.println(template.calculate(x, y, (x1, y1) -> x1 - y1));
+        System.out.println(template.calculate(x, y, (x1, y1) -> x1 * y1));
+        System.out.println(template.calculate(x, y, (x1, y1) -> x1 / y1));
+    }
+
+    public void runBook(){
+        Book book = Book.titleOf("어린왕자");
+    }
+
+    public void runCar(){
+        Car tesla = Car.brandBlackFrom("Tesla");
+        Car bmw = Car.brandColorOf("BMW", "red");
+        System.out.println(tesla);
+        System.out.println(bmw);
+    }
+
+    public void runPhone(){
+        SmartPhone applePhone = SmartPhone.getApplePhone();
+        SmartPhone samsungPhone = SmartPhone.getSamsungPhone();
+        SmartPhone chinesePhone = SmartPhone.getChinesePhone();
+
+        applePhone.information();
+        samsungPhone.information();
+        chinesePhone.information();
+
+        SmartPhone phone1 = SmartPhone.getPhone(1000);
+        SmartPhone phone2 = SmartPhone.getPhone(2000);
+        SmartPhone phone3 = SmartPhone.getPhone(3000);
+
+        phone1.information();
+        phone2.information();
+        phone3.information();
+    }
+
+    public void runGrade(){
+        System.out.println(GradeCalculator.of(30).toText());
+        System.out.println(GradeCalculator.of(90).toText());
+        MemberGrade memberGrade = MemberGrade.of();
+        System.out.println(memberGrade);
+    }
+
+
 
 
 
