@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class RadixSort {
-    public static void sort(){
+    public static void run(){
         int[] arr = AlgorithmItem.getIntArr();
         radixSort(arr);
         System.out.println(Arrays.toString(arr));

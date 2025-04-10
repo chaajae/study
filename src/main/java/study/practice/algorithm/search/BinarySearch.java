@@ -1,7 +1,8 @@
-package study.practice.algorithm;
+package study.practice.algorithm.search;
+
+import study.practice.algorithm.AlgorithmItem;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 public class BinarySearch {
     public static void run(){

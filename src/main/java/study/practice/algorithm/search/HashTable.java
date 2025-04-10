@@ -1,4 +1,4 @@
-package study.practice.algorithm;
+package study.practice.algorithm.search;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

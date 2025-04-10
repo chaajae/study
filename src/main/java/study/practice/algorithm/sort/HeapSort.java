@@ -5,7 +5,7 @@ import study.practice.algorithm.AlgorithmItem;
 import java.util.Arrays;
 
 public class HeapSort {
-    public static void sort(){
+    public static void run(){
         int[] arr = AlgorithmItem.getIntArr();
         heapSort(arr);
         System.out.println(Arrays.toString(arr));

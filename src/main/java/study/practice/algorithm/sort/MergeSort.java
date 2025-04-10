@@ -5,7 +5,7 @@ import study.practice.algorithm.AlgorithmItem;
 import java.util.Arrays;
 
 public class MergeSort {
-    public static void sort(){
+    public static void run(){
         int[] arr = AlgorithmItem.getIntArr();
         mergeSort(arr, 0, arr.length - 1);
         System.out.println(Arrays.toString(arr));

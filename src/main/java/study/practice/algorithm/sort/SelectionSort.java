@@ -5,7 +5,7 @@ import study.practice.algorithm.AlgorithmItem;
 import java.util.Arrays;
 
 public class SelectionSort {
-    public static void sort(){
+    public static void run(){
         int[] arr = AlgorithmItem.getIntArr();
         int indexMin, temp;
 

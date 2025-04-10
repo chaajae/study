@@ -5,7 +5,7 @@ import study.practice.algorithm.AlgorithmItem;
 import java.util.Arrays;
 
 public class CountingSort {
-    public static void sort(){
+    public static void run(){
         int[] arr = AlgorithmItem.getIntArr();
         countingSort(arr, new int[AlgorithmItem.getMax(arr) + 1], new int[arr.length]);
         System.out.println(Arrays.toString(arr));

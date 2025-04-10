@@ -7,7 +7,7 @@ public class AlgorithmItem {
     public static int[] getIntArr() {
         int[] arr = new int[5000000];
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = ((int) (Math.random() * 10000000)) + 1;
+            arr[i] = getRandomNum();
         }
         return arr;
     }
@@ -26,5 +26,9 @@ public class AlgorithmItem {
             }
         }
         return max;
+    }
+
+    public static int getRandomNum(){
+        return ((int) (Math.random() * 50)) ;
     }
 }

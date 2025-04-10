@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class InsertionSort {
 
-    public static void sort(){
+    public static void run(){
         int[] arr = AlgorithmItem.getIntArr();
         for (int index = 1; index < arr.length; index++) {
             int temp = arr[index];

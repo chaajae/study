@@ -59,10 +59,6 @@ import java.util.*;
 
 public class RunController {
 
-    public void runAlgorithm(){
-        Algorithm.BUBBLE_SORT.run();
-    }
-
     public void runBuilderPattern(){
         Datas datas = new Datas("홍길동", "영등포");
 

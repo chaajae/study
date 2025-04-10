@@ -1,61 +1,65 @@
 package study.practice.algorithm;
 
+import study.practice.algorithm.search.BinarySearch;
+import study.practice.algorithm.search.BreadthFirstSearch;
+import study.practice.algorithm.search.DepthFirstSearch;
+import study.practice.algorithm.search.HashTable;
 import study.practice.algorithm.sort.*;
 
 public enum Algorithm {
     BUBBLE_SORT{
         @Override
         public void implement(){
-            BubbleSort.sort();
+            BubbleSort.run();
         }
     },
 
     SELECTION_SORT{
         @Override
         void implement() {
-            SelectionSort.sort();
+            SelectionSort.run();
         }
     },
 
     INSERTION_SORT{
         @Override
         void implement() {
-            InsertionSort.sort();
+            InsertionSort.run();
         }
     },
 
     QUICK_SORT{
         @Override
         void implement() {
-            QuickSort.sort();
+            QuickSort.run();
         }
     },
 
     MERGE_SORT{
         @Override
         void implement() {
-            MergeSort.sort();
+            MergeSort.run();
         }
     },
 
     HEAP_SORT{
         @Override
         void implement() {
-            HeapSort.sort();
+            HeapSort.run();
         }
     },
 
     RADIX_SORT{
         @Override
         void implement() {
-            RadixSort.sort();
+            RadixSort.run();
         }
     },
 
     COUNTING_SORT{
         @Override
         void implement() {
-            CountingSort.sort();
+            CountingSort.run();
         }
     },
 
@@ -70,6 +74,20 @@ public enum Algorithm {
         @Override
         void implement() {
             HashTable.run();
+        }
+    },
+
+    DFS{
+        @Override
+        void implement() {
+            DepthFirstSearch.run();
+        }
+    },
+
+    BFS{
+        @Override
+        void implement() {
+            BreadthFirstSearch.run();
         }
     };
 
