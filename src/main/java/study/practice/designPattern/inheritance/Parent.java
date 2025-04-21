@@ -26,4 +26,8 @@ public class Parent {
     public void test() {
 
     }
+
+    public static void staticTest(){
+        System.out.println("static");
+    }
 }

@@ -1,6 +1,5 @@
 package study.practice.controller;
 
-import study.practice.algorithm.Algorithm;
 import study.practice.designPattern.adaptor.*;
 import study.practice.designPattern.builder.*;
 import study.practice.designPattern.chainOfResponsibility.login.*;
@@ -59,7 +58,7 @@ import java.util.*;
 
 public class RunController {
 
-    public void runBuilderPattern(){
+    public void runBuilderPattern() {
         Datas datas = new Datas("홍길동", "영등포");
 
         Builder plainText = new PlainTextBuilder(datas);
@@ -73,9 +72,10 @@ public class RunController {
         System.out.println(plainTextValue);
         System.out.println(jsonValue);
         System.out.println(xmlValue);
+
     }
 
-    public void runStrategyPattern(){
+    public void runStrategyPattern() {
         Cafe americano = Cafe.builder()
                 .menu(new Americano("콜드브루", "아이스"))
                 .payments(new Card("현대카드", "일시불"))
@@ -101,7 +101,7 @@ public class RunController {
         // 업비트 거래소에서 암호화페 결제가 완료되었습니다.
     }
 
-    public void runTemplateMethodPattern(){
+    public void runTemplateMethodPattern() {
         String path = "calculate.txt";
         System.out.println("PATH : " + path);
         FileProcessor plusProcessor = new PlusFileProcessor(path);
@@ -117,12 +117,12 @@ public class RunController {
         System.out.println(p.getCount());
     }
 
-    public void runNormalProxy(){
+    public void runNormalProxy() {
         ISubject sub = new NormalProxy(new RealSubject());
         sub.action();
     }
 
-    public void runVirtualProxy(){
+    public void runVirtualProxy() {
         ISubject sub = new VirtualProxy();
         sub.action();
     }
@@ -185,7 +185,7 @@ public class RunController {
         view3.printAllInfo(protectedEmployees);
     }
 
-    public void runDynamicProxy(){
+    public void runDynamicProxy() {
         Animal tiger = (Animal) Proxy.newProxyInstance(
                 Animal.class.getClassLoader(),
                 new Class[]{Animal.class},
@@ -200,14 +200,14 @@ public class RunController {
         tiger.eat();
     }
 
-    public void runAdaptor(){
+    public void runAdaptor() {
         ISortEngine adaptor = new SortEngineAdaptor(new A_SortEngine(), new B_SortEngine());
         SortingMachine machine = new SortingMachine();
         machine.setEngine(adaptor);
         machine.sortingRun();
     }
 
-    public void runDecorator(){
+    public void runDecorator() {
         System.out.println("====== 유탄 발사기 =======");
         Weapon generade_rifle = new Grenade(new BaseWeapon());
         generade_rifle.aim_and_fire();
@@ -221,7 +221,7 @@ public class RunController {
         buttstock_scoped_generade_rifle.aim_and_fire();
     }
 
-    public void runPracticalDecorator(){
+    public void runPracticalDecorator() {
         IData data = new MyData();
         IData data1 = new TimerMeasureDecorator(data);
         data1.setData(1);
@@ -233,7 +233,7 @@ public class RunController {
         data3.setData(1);
     }
 
-    public void runObserver(){
+    public void runObserver() {
         study.practice.designPattern.observer.ISubject publisher = new ConcreteSubject();
 
         IObserver o1 = new ObserverA();
@@ -249,7 +249,7 @@ public class RunController {
         publisher.notifyObserver();
     }
 
-    public void runWeatherByObserver(){
+    public void runWeatherByObserver() {
         WeatherAPI api = new WeatherAPI();
         WeatherObserver user1 = new KoreanUser("홍길동");
         WeatherObserver user2 = new KoreanUser("이순신");
@@ -266,7 +266,7 @@ public class RunController {
         api.measurementsChanged();
     }
 
-    public void runIterator(){
+    public void runIterator() {
         ConcreteAggregate aggregate = new ConcreteAggregate(5);
 
         aggregate.add(1);
@@ -276,13 +276,13 @@ public class RunController {
         aggregate.add(5);
 
         Iterator iter = aggregate.iterator();
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             System.out.printf("%s -> ", iter.next());
         }
 
     }
 
-    public void runBoardByIterator(){
+    public void runBoardByIterator() {
         Board board = new Board();
 
         board.addPost("디자인 패턴 강의 리뷰", LocalDate.of(2024, 8, 30));
@@ -293,21 +293,21 @@ public class RunController {
         print(board.getDatePostIterator());
     }
 
-    public void print(java.util.Iterator<Post> iterator){
+    public void print(java.util.Iterator<Post> iterator) {
         java.util.Iterator<Post> iter = iterator;
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             Post post = iter.next();
             System.out.println(post.title + " / " + post.date);
         }
     }
 
-    public void runTypeConvert(){
+    public void runTypeConvert() {
         String str = "{\"date\": \"2025-01-01\" ,\"time\": \"2025-03-12 11:23:00\"}";
         DateTimeObj obj = Functions.typeConvert(str, DateTimeObj.class);
         System.out.println(obj);
     }
 
-    public void runFacadePrevious(){
+    public void runFacadePrevious() {
         DBMS dbms = new DBMS();
         dbms.put("홍길동", new Row("홍길동", "1890-02-14", "honggildong@naver.com"));
         dbms.put("임꺽정", new Row("임꺽정", "1820-11-02", "imgguckjong@naver.com"));
@@ -315,27 +315,27 @@ public class RunController {
 
         Cashe cashe = new Cashe();
 
-        String name= "홍길동";
+        String name = "홍길동";
         Row row = cashe.get(name);
 
         if (row == null) {
             row = dbms.query(name);
-            if(row != null){
+            if (row != null) {
                 cashe.put(row);
             }
         }
 
-        if(row != null){
+        if (row != null) {
             Message message = new Message(row);
             System.out.println(message.makeName());
             System.out.println(message.makeBirthday());
             System.out.println(message.makeEmail());
-        }else{
+        } else {
             System.out.println(name + "가 데이터베이스에 존재하지 않습니다.");
         }
     }
 
-    public void runFacade(){
+    public void runFacade() {
         Facade facade = new Facade();
         facade.insert();
 
@@ -343,7 +343,7 @@ public class RunController {
         facade.run(name);
     }
 
-    public void runFlyweight(){
+    public void runFlyweight() {
         Terrain terrain = new Terrain();
 
         for (int i = 0; i < 5; i++) {
@@ -372,7 +372,7 @@ public class RunController {
         Memory.print();
     }
 
-    public void runComposite(){
+    public void runComposite() {
         Composite composite1 = new Composite();
 
         Leaf leaf1 = new Leaf();
@@ -392,7 +392,7 @@ public class RunController {
         composite1.operation();
     }
 
-    public void runPracticalComposite(){
+    public void runPracticalComposite() {
         Bag bag_main = new Bag("메인 가방");
 
         Item armor = new Item("갑옷", 250);
@@ -415,12 +415,12 @@ public class RunController {
         printPrice(bag_food);
     }
 
-    public void printPrice(ItemComponent bag){
+    public void printPrice(ItemComponent bag) {
         int result = bag.getPrice();
         System.out.println(bag.getName() + "의 아이템 총합 : " + result + " 골드");
     }
 
-    public void runDirectoryComposite(){
+    public void runDirectoryComposite() {
         Folder root = new Folder("root");
 
         File file1 = new File("file1", 10);
@@ -443,7 +443,7 @@ public class RunController {
         root.print();
     }
 
-    public void runUrlInfo(){
+    public void runUrlInfo() {
         String url1 = "http://www.youtube.com:80";
         System.out.println("INPUT: " + url1);
         UrlParser.run(url1);
@@ -457,7 +457,7 @@ public class RunController {
         UrlParser.run(url3);
     }
 
-    public void runUrlParserUseCOR(){
+    public void runUrlParserUseCOR() {
         Handler handler1 = new ProtocolHandler();
         Handler handler2 = new DomainHandler();
         Handler handler3 = new PortHandler();
@@ -483,7 +483,6 @@ public class RunController {
             server.register("kim@naver.com", "12345");
             server.register("chajy95@naver.com", "54321");
             server.register("lee@naver.com", "15243");
-
             LimitLoginAttemptMiddleware middleware1 = new LimitLoginAttemptMiddleware();
             AuthorizeMiddleware middleware2 = new AuthorizeMiddleware(server);
             AuthenticationMiddleware middleware3 = new AuthenticationMiddleware();
@@ -495,28 +494,28 @@ public class RunController {
 
             do {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                System.out.print("\nEmail : ");
                 String email = reader.readLine();
+                System.out.print("\nEmail : ");
                 System.out.print("Password : ");
                 String password = reader.readLine();
 
                 short result = middleware1.check(email, password);
 
-                if(result == -2){
+                if (result == -2) {
                     throw new RuntimeException("로그인 시도 횟수 초과로 프로그램을 종료합니다.");
-                }else if(result == -1){
+                } else if (result == -1) {
                     break;
-                }else if(result == 0){
+                } else if (result == 0) {
                     continue;
                 }
 
-            }while (true);
-        }catch (Exception e){
+            } while (true);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void runEnumFactoryMethod(){
+    public void runEnumFactoryMethod() {
         Shape rectangle = EnumShapeFactory.RECTANGLE.create("red");
         rectangle.draw();
 
@@ -524,7 +523,7 @@ public class RunController {
         circle.draw();
     }
 
-    public void runDynamicFactory(){
+    public void runDynamicFactory() {
         DShape rectangle = DynamicShapeFactory.create("Rectangle", "red");
         rectangle.draw();
 
@@ -537,7 +536,7 @@ public class RunController {
 
     }
 
-    public void runCallback(){
+    public void runCallback() {
         int x = 100;
         int y = 20;
         TestTemplate t = new TestTemplate();
@@ -546,29 +545,29 @@ public class RunController {
         System.out.println(result);
     }
 
-    public void runOperationStrategy(){
+    public void runOperationStrategy() {
         int x = 100;
         int y = 30;
 
         OperationContext context = new OperationContext();
 
         context.setOperation(new Plus());
-        System.out.println(context.calculate(x,y));
+        System.out.println(context.calculate(x, y));
 
         context.setOperation(new Sub());
-        System.out.println(context.calculate(x,y));
+        System.out.println(context.calculate(x, y));
 
         context.setOperation(new Multi());
-        System.out.println(context.calculate(x,y));
+        System.out.println(context.calculate(x, y));
 
         context.setOperation(new Divide());
-        System.out.println(context.calculate(x,y));
+        System.out.println(context.calculate(x, y));
 
     }
 
-    public void runOperationCallback(){
+    public void runOperationCallback() {
         int x = 100;
-        int y= 30;
+        int y = 30;
 
         OperationTemplate template = new OperationTemplate();
         System.out.println(template.calculate(x, y, (x1, y1) -> x1 + y1));
@@ -577,18 +576,18 @@ public class RunController {
         System.out.println(template.calculate(x, y, (x1, y1) -> x1 / y1));
     }
 
-    public void runBook(){
+    public void runBook() {
         Book book = Book.titleOf("어린왕자");
     }
 
-    public void runCar(){
+    public void runCar() {
         Car tesla = Car.brandBlackFrom("Tesla");
         Car bmw = Car.brandColorOf("BMW", "red");
         System.out.println(tesla);
         System.out.println(bmw);
     }
 
-    public void runPhone(){
+    public void runPhone() {
         SmartPhone applePhone = SmartPhone.getApplePhone();
         SmartPhone samsungPhone = SmartPhone.getSamsungPhone();
         SmartPhone chinesePhone = SmartPhone.getChinesePhone();
@@ -606,16 +605,12 @@ public class RunController {
         phone3.information();
     }
 
-    public void runGrade(){
+    public void runGrade() {
         System.out.println(GradeCalculator.of(30).toText());
         System.out.println(GradeCalculator.of(90).toText());
+
         MemberGrade memberGrade = MemberGrade.of();
         System.out.println(memberGrade);
     }
-
-
-
-
-
 
 }

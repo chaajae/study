@@ -1,8 +1,5 @@
 package study.practice.algorithm;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 public class AlgorithmItem {
     public static int[] getIntArr() {
         int[] arr = new int[5000000];

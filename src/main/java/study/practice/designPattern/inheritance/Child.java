@@ -1,7 +1,12 @@
 package study.practice.designPattern.inheritance;
 
-import java.util.Collection;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.ToString;
+import study.practice.algorithm.Algorithm;
 
+import java.util.Collection;
+@ToString
 public class Child extends Parent {
     private int count = 0;
     @Override
