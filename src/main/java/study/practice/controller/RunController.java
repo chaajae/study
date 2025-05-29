@@ -1,5 +1,11 @@
 package study.practice.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import study.practice.dataStructure.CircularDoublyLinkedList.CircularDoublyLinkedList;
+import study.practice.dataStructure.doublyLinkedList.DoublyLinkedList;
+import study.practice.dataStructure.stack.MyStack;
 import study.practice.designPattern.adaptor.*;
 import study.practice.designPattern.builder.*;
 import study.practice.designPattern.chainOfResponsibility.login.*;
@@ -47,8 +53,11 @@ import study.practice.designPattern.templateCallback.TestTemplate;
 import study.practice.designPattern.templateCallback.practical.OperationTemplate;
 import study.practice.designPattern.templateCallback.strategy.*;
 import study.practice.designPattern.templateMethod.*;
+import study.practice.domain.Response;
+import study.practice.domain.repo.DummyRepository;
 import study.practice.etc.gson.DateTimeObj;
 import study.practice.etc.function.Functions;
+import study.practice.service.DummyService;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -56,7 +65,14 @@ import java.lang.reflect.Proxy;
 import java.time.LocalDate;
 import java.util.*;
 
+@RequestMapping("/api")
+@RestController
+@RequiredArgsConstructor
 public class RunController {
+
+    private final DummyRepository dummyRepository;
+    private final DummyService dummyService;
+
 
     public void runBuilderPattern() {
         Datas datas = new Datas("홍길동", "영등포");
@@ -540,7 +556,7 @@ public class RunController {
         int x = 100;
         int y = 20;
         TestTemplate t = new TestTemplate();
-        int result = t.workflow(e -> e * e);
+        int result = t.workflow(e -> e + e);
 
         System.out.println(result);
     }
@@ -612,5 +628,129 @@ public class RunController {
         MemberGrade memberGrade = MemberGrade.of();
         System.out.println(memberGrade);
     }
+
+    @PostMapping("/set")
+    public void set() {
+        long start = System.currentTimeMillis();
+        try {
+            dummyRepository.set();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("TIME ::: " + ((end - start) / 1000));
+    }
+
+    @PostMapping("/get")
+    public void get() {
+        dummyRepository.get();
+    }
+
+    @PostMapping("/just")
+    public void just() {
+        dummyRepository.just();
+    }
+
+    @PostMapping("/doublyLinkedList")
+    public void doublyLinkedList(){
+        DoublyLinkedList<Number> list = new DoublyLinkedList<>();
+        list.addFirst(1);
+        list.addLast(2);
+        list.addLast(3);
+        list.addLast(4);
+        list.addLast(5);
+
+        System.out.println(list.toString2());
+
+        list.removeFirst();
+
+        System.out.println(list.toString2());
+
+        list.removeLast();
+
+        System.out.println(list.toString2());
+
+        list.remove(2.5);
+
+        System.out.println(list.toString2());
+
+        System.out.println(list.get(2));
+        list.set(1, 3.5);
+
+        System.out.println(list.toString2());
+
+    }
+
+    @PostMapping("/doublyLinkedListToString2")
+    public void doublyLinkedListToString2(){
+        DoublyLinkedList<Number> list = new DoublyLinkedList<>();
+        list.addLast(2);
+        list.addFirst(1);
+        list.addLast(3);
+        list.add(2, 2.5);
+        System.out.println(list.toString2());
+    }
+
+    @PostMapping("/circularDoublyLinkedList")
+    public void circularDoublyLinkedList(){
+        CircularDoublyLinkedList<Number> list = new CircularDoublyLinkedList<>();
+        list.addLast(2);
+        list.addFirst(1);
+        list.addLast(3);
+        list.add(2, 2.5);
+        System.out.println(list.toString2());
+    }
+
+    @PostMapping("/myStack")
+    public void myStack(){
+        MyStack<Integer> stack = new MyStack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+
+        System.out.println(stack);
+        System.out.println(stack.peek());
+        System.out.println(stack.search(4));
+        System.out.println(stack.search(3));
+
+        stack.pop();
+        stack.pop();
+        stack.pop();
+
+        System.out.println(stack);
+    }
+
+    @PostMapping("/openFeign/test")
+    public void openFeign(@RequestBody Map<String,String> param){
+
+        try {
+            Response response = dummyService.openFeignTest(param.get("token"), param.get("uid"));
+            System.out.println(response.getData());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @PostMapping("/dummy/set")
+    public void dummySet(){
+        try {
+            dummyRepository.set();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @PostMapping("/dummy/get")
+    public void dummyGet(){
+        try {
+            dummyRepository.get();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
 
 }

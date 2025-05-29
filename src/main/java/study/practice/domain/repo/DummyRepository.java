@@ -15,7 +15,7 @@ public class DummyRepository {
 
     public void set() throws Exception {
         try {
-            for (int i = 1; i <= 50000000; i++) {
+            for (int i = 1; i <= 1000000; i++) {
                 String data = String.format("%d / %d / %d", idx, idx, idx);
                 Dummy dummy = Dummy.builder()
                         .name("name/" + idx)
