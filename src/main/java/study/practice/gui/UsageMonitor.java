@@ -19,8 +19,10 @@ public class UsageMonitor { // 실행순서 3. 생성자 암묵적으로 실행
     // 실행순서 2. 필드 초기화
     private JFrame frame = new JFrame("Usage Monitor");
     private JButton heapMax = new JButton();
+    private JButton heapCommit = new JButton();
     private JButton heapUse = new JButton();
-    private JButton disk = new JButton();
+    private JButton diskTotal = new JButton();
+    private JButton diskUse = new JButton();
     private JButton cpu = new JButton();
 
     // 실행순서 1. JVM이 클래스를 로딩하는 시점에 static 블럭 딱 한번만 실행 (Bean으로 등록전)
@@ -34,12 +36,14 @@ public class UsageMonitor { // 실행순서 3. 생성자 암묵적으로 실행
     public void monitor() {
         try {
             frame.add(heapMax);
-            frame.add(disk);
+            frame.add(diskTotal);
+            frame.add(heapCommit);
+            frame.add(diskUse);
             frame.add(heapUse);
             frame.add(cpu);
 
-            frame.setBounds(800 , 100, 600, 120);
-            frame.setLayout(new GridLayout(2, 4));
+            frame.setBounds(800 , 100, 600, 150);
+            frame.setLayout(new GridLayout(3, 6));
             frame.setAlwaysOnTop(true); // 다른 창 눌러도 뒤로 안감
 
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -61,8 +65,10 @@ public class UsageMonitor { // 실행순서 3. 생성자 암묵적으로 실행
 
             frame.setVisible(true);
             heapMax.setText(getHeapMax());
+            heapCommit.setText(getHeapCommit());
             heapUse.setText(getHeapUsage());
-            disk.setText(getDiskUsage());
+            diskTotal.setText(getDiskTotal());
+            diskUse.setText(getDiskUsage());
             cpu.setText(getCpuUsage());
         }catch (Exception e){
             log.error(e.getMessage());
@@ -74,17 +80,30 @@ public class UsageMonitor { // 실행순서 3. 생성자 암묵적으로 실행
         heapUse.setText(getHeapUsage());
     }
 
-    public String getHeapUsage(){
-        return String.format("Heap Usage : %s MB",toMB(ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed()));
+    @Scheduled(cron = "0/1 * * * * *")
+    public void setHeapCommit(){
+        heapCommit.setText(getHeapCommit());
     }
 
     public String getHeapMax(){
         return String.format("Heap Max : %s MB",toMB(ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getMax()));
     }
 
+    public String getHeapCommit(){
+        return String.format("Heap Commit : %s MB",toMB(ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getCommitted()));
+    }
+
+    public String getHeapUsage(){
+        return String.format("Heap Usage : %s MB",toMB(ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed()));
+    }
+
     @Scheduled(cron = "0/1 * * * * *")
     public void setDiskUsage(){
-        disk.setText(getDiskUsage());
+        diskUse.setText(getDiskUsage());
+    }
+
+    public String getDiskTotal(){
+        return String.format("Disk Total : %s GB",toGB(new File("/").getTotalSpace()));
     }
 
     public String getDiskUsage(){
@@ -98,7 +117,7 @@ public class UsageMonitor { // 실행순서 3. 생성자 암묵적으로 실행
 
     public String getCpuUsage(){
         OperatingSystemMXBean mxBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
-        return String.format("CPU Usage : %.2f %%", mxBean.getCpuLoad() * 100);
+        return String.format("Cpu Usage : %.2f %%", mxBean.getCpuLoad() * 100);
     }
 
     public String toGB(long size) {
