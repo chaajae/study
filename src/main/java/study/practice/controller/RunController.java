@@ -1,7 +1,6 @@
 package study.practice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import study.practice.dataStructure.CircularDoublyLinkedList.CircularDoublyLinkedList;
 import study.practice.dataStructure.doublyLinkedList.DoublyLinkedList;
@@ -749,8 +748,5 @@ public class RunController {
             System.out.println(e.getMessage());
         }
     }
-
-
-
 
 }
