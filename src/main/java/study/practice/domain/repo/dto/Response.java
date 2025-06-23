@@ -1,4 +1,4 @@
-package study.practice.domain;
+package study.practice.domain.repo.dto;
 
 import lombok.Getter;
 import lombok.Setter;

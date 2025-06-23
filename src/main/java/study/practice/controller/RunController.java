@@ -1,6 +1,7 @@
 package study.practice.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import study.practice.dataStructure.CircularDoublyLinkedList.CircularDoublyLinkedList;
 import study.practice.dataStructure.doublyLinkedList.DoublyLinkedList;
@@ -52,7 +53,7 @@ import study.practice.designPattern.templateCallback.TestTemplate;
 import study.practice.designPattern.templateCallback.practical.OperationTemplate;
 import study.practice.designPattern.templateCallback.strategy.*;
 import study.practice.designPattern.templateMethod.*;
-import study.practice.domain.Response;
+import study.practice.domain.repo.dto.Response;
 import study.practice.domain.repo.DummyRepository;
 import study.practice.etc.gson.DateTimeObj;
 import study.practice.etc.function.Functions;
@@ -67,6 +68,7 @@ import java.util.*;
 @RequestMapping("/api")
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class RunController {
 
     private final DummyRepository dummyRepository;
@@ -556,7 +558,6 @@ public class RunController {
         int y = 20;
         TestTemplate t = new TestTemplate();
         int result = t.workflow(e -> e + e);
-
         System.out.println(result);
     }
 
@@ -748,5 +749,6 @@ public class RunController {
             System.out.println(e.getMessage());
         }
     }
+
 
 }

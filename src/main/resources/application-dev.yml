@@ -1,8 +1,8 @@
 spring:
   profiles:
-    active: local
+    active: dev
   datasource:
-    url: jdbc:mariadb://localhost:23306/PRACTICEDB
+    url: jdbc:mariadb://first-machine-db.c3u6uwaq4c7b.ap-northeast-2.rds.amazonaws.com:23306/PRACTICEDB
     username: root
     password: rhyme4109!
     driver-class-name: org.mariadb.jdbc.Driver

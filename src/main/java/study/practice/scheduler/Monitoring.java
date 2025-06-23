@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 public class Monitoring {
-    @Scheduled(cron = "0/10 * * * * *")
+    //@Scheduled(cron = "0/10 * * * * *")
     public void diskMonitor(){
         try {
             System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -25,14 +25,14 @@ public class Monitoring {
         }
     }
 
-    @Scheduled(cron = "0/10 * * * * *")
+    //@Scheduled(cron = "0/10 * * * * *")
     public void cpuMonitor(){
         System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         OperatingSystemMXBean mxBean = ManagementFactory.getPlatformMXBean(com.sun.management.OperatingSystemMXBean.class);
         System.out.printf("CPU Usage : %.2f %%%n%n", mxBean.getCpuLoad() * 100);
     }
 
-    @Scheduled(cron = "0/10 * * * * *")
+    //@Scheduled(cron = "0/10 * * * * *")
     public void memoryMonitor(){
         MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
         MemoryUsage heap = memBean.getHeapMemoryUsage();

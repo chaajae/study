@@ -32,7 +32,7 @@ public class UsageMonitor { // 실행순서 3. 생성자 암묵적으로 실행
 
     // 실행순서 5. Spring이 Bean으로 등록된 직후 바로 실행됨
     // 인스턴스화 직후에 실행 시키려고 붙이는 어노테이션인데 Bean등록 안되어있으면 인스턴스화 직후에 실행안됨
-    @PostConstruct
+    //@PostConstruct
     public void monitor() {
         try {
             frame.add(heapMax);

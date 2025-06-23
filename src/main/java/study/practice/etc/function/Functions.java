@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Functions {
+
     public static <T> T typeConvert(Object target, Class<T> type){
 
         T result = null;

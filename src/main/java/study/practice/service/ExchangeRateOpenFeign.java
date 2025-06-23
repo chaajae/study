@@ -2,7 +2,7 @@ package study.practice.service;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-import study.practice.domain.Response;
+import study.practice.domain.repo.dto.Response;
 
 import java.util.Map;
 

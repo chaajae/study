@@ -1,7 +1,7 @@
 package study.practice.domain.repo;
 
 import org.springframework.stereotype.Component;
-import study.practice.Dummy;
+import study.practice.domain.repo.dto.Dummy;
 
 import java.util.ArrayList;
 import java.util.List;

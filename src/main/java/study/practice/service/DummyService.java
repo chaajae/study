@@ -1,12 +1,13 @@
 package study.practice.service;
 
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import study.practice.domain.ActionCard;
-import study.practice.domain.Response;
-import study.practice.domain.repo.ActionCardRepo;
+import study.practice.domain.repo.dto.DmsDto;
+import study.practice.domain.repo.dto.Response;
+import study.practice.etc.function.Functions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,33 +16,11 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DummyService {
 
-    private final ActionCardRepo actionCardRepo;
     private final ExchangeRateOpenFeign exchangeRateOpenFeign;
     private Integer count = 0;
-    @Transactional
-    public Integer test() {
-
-        Integer num = 1209;
-        try {
-            List<ActionCard> list = new ArrayList<>();
-            ActionCard card = new ActionCard();
-            card.setAction_no("no");
-            list.add(card);
-            actionCardRepo.saveAll(list);
-
-            for (int i = 0; i < 5; i++) {
-                System.out.println(list.get(i));
-            }
-
-            num = 1201;
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        }
-        return num;
-    }
 
     public Response openFeignTest(String token, String uid){
         Map<String,Object> param = new HashMap<>();
@@ -50,4 +29,35 @@ public class DummyService {
         }
         return exchangeRateOpenFeign.put(token,uid,param);
     }
+
+    public void convert(){
+        Gson gson = new Gson();
+
+        try {
+
+            DmsDto dto = new DmsDto();
+            List<DmsDto.Role> roles = new ArrayList<>();
+            roles.add(DmsDto.Role.builder().roleName("System Admin").roleId("11").build());
+            roles.add(DmsDto.Role.builder().roleName("System Admin2").roleId("22").build());
+
+            dto.setRoles(roles);
+
+            String json = gson.toJson(dto.getRoles());
+            List<Map<String,Object>> list = Functions.typeConvert(json, List.class);
+            DmsDto.Role role2 = null;
+            for (Map<String, Object> role : list) {
+                if("System Admin".equals(role.get("roleName"))){
+                    role2 = Functions.typeConvert(role, DmsDto.Role.class);
+                }
+            }
+            System.out.println(role2);
+
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+
 }

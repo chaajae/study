@@ -1,4 +1,4 @@
-package study.practice;
+package study.practice.domain.repo.dto;
 
 import lombok.Builder;
 import lombok.Data;
