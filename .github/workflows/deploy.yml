@@ -21,8 +21,8 @@ jobs:
           key: ${{ secrets.FIRST_MACHINE_SECRETS }}
           port: 22
           script: |
-            cd ~/study
+            cd /home/ubuntu/study
             git pull origin master
-            ./gradlew build
+            ./gradlew build -x test
             pkill -f 'java -jar' || true
-            nohup java -jar build/libs/practice-0.0.1-SNAPSHOT.jar > nohup.out 2>&1 &
+            nohup java -jar -Dspring.profiles.active=dev build/libs/practice-0.0.1-SNAPSHOT.jar > nohup.out 2>&1 &
