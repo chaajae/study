@@ -21,8 +21,25 @@ jobs:
           key: ${{ secrets.FIRST_MACHINE_SECRETS }}
           port: 22
           script: |
+            echo "🔁 Pulling latest code"
             cd /home/ubuntu/study
             git pull origin master
+            
+            echo "🧱 Building project"
             ./gradlew build -x test
+            
+            echo "🛑 Stopping existing app"
             pkill -f 'java -jar' || true
-            nohup java -jar -Dspring.profiles.active=dev build/libs/practice-0.0.1-SNAPSHOT.jar > nohup.out 2>&1 &
+            sleep 3
+            
+            echo "🚀 Starting new app"
+            nohup java -jar -Dspring.profiles.active=dev build/libs/practice-0.0.1-SNAPSHOT.jar > ~/study/nohup.out 2>&1 &
+            
+            echo "⏳ Waiting for app to start"
+            sleep 5
+  
+            echo "📋 Running processes"
+            ps -ef | grep java | grep -v grep
+  
+            echo "📝 Tail last 20 lines of nohup.out"
+            tail -n 20 ~/study/nohup.out
