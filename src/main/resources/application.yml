@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: local
   datasource:
     url: jdbc:mariadb://localhost:23306/PRACTICEDB
     username: root
