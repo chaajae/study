@@ -6,7 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import study.practice.domain.repo.dto.Response;
 import study.practice.service.UserInfoService;
+
+import java.util.Map;
 
 @RequestMapping("/api/user")
 @RestController
@@ -16,12 +19,19 @@ public class UserInfoController {
     private final UserInfoService userInfoService;
 
     @PostMapping("/get")
-    public void getUserInfoList(){
-        System.out.println(userInfoService.getUserInfoList());;
+    public void printUserInfo(){
+        System.out.println(userInfoService.getUserInfoList());
     }
 
     @PostMapping("/set")
     public void setUserInfoList(){
         userInfoService.setUserInfoList();
+    }
+
+    @PostMapping("/list")
+    public Response getUserInfoList(){
+        Response response = new Response();
+        response.setData(Map.of("datas",userInfoService.getUserInfoList()));
+        return response;
     }
 }

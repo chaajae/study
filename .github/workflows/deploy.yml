@@ -1,0 +1,28 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.FIRST_MACHINE_HOST }}
+          username: ubuntu
+          key: ${{ secrets.FIRST_MACHINE_SECRETS }}
+          port: 22
+          script: |
+            cd ~/study
+            git pull origin master
+            ./gradlew build
+            pkill -f 'java -jar' || true
+            nohup java -jar build/libs/practice-0.0.1-SNAPSHOT.jar > nohup.out 2>&1 &
