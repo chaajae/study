@@ -37,4 +37,11 @@ public class UserInfoController {
         response.setData(Map.of("datas",userInfoService.getUserInfoList()));
         return response;
     }
+
+    @PostMapping("/comboBox")
+    public Response getComboBox(){
+        Response response = new Response();
+        response.setData(Map.of("comboBox","comboBox Datas"));
+        return response;
+    }
 }
