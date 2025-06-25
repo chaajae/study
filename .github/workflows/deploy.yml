@@ -36,8 +36,8 @@ jobs:
             sleep 3
           
             echo "🚀 Starting new app"
-            nohup java -jar -Dspring.profiles.active=dev build/libs/practice-0.0.1-SNAPSHOT.jar > build/libs/nohup.out 2>&1 &
-          
+            nohup java -Dspring.profiles.active=dev -jar build/libs/practice-0.0.1-SNAPSHOT.jar > build/libs/nohup.out 2>&1 &
+            
             echo "⏳ Waiting for app to start"
             sleep 5
           
