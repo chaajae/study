@@ -21,7 +21,16 @@ jobs:
           key: ${{ secrets.FIRST_MACHINE_SECRETS }}
           port: 22
           script: |
+            echo "🔁 Pulling latest code"
             cd /home/ubuntu/study
             git pull origin master
-            ./gradlew clean bootJar -x test --no-build-cache
-            sudo systemctl restart practice
+
+            echo "🔨 Building Docker image & restarting container"
+            docker compose down
+            docker compose up -d --build
+
+            echo "📋 Current running containers"
+            docker ps
+
+            echo "📁 Showing recent logs"
+            docker compose logs --tail=30
