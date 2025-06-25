@@ -25,9 +25,13 @@ jobs:
             cd /home/ubuntu/study
             git pull origin master
 
-            echo "🧱 Building project2"
+            echo "🧱 Building project"
             ./gradlew clean bootJar -x test --no-build-cache
-        
+            
+            echo "🛑 Stopping existing app"
+            pkill -f 'java -jar' || true
+            sleep 3
+            
             echo "🚀 Starting new app with disown"
             cd /home/ubuntu/study
             nohup java -Dspring.profiles.active=dev -jar build/libs/practice-0.0.1-SNAPSHOT.jar > /home/ubuntu/nohup.out 2>&1 &
