@@ -40,8 +40,10 @@ jobs:
             pkill -f 'java -jar' || true
             sleep 3
 
-            echo "🚀 Starting new app with setsid"
-            setsid java -Dspring.profiles.active=dev -jar build/libs/practice-0.0.1-SNAPSHOT.jar > /home/ubuntu/nohup.out 2>&1 &
+            echo "🚀 Starting new app with disown"
+            cd /home/ubuntu/study
+            nohup java -Dspring.profiles.active=dev -jar build/libs/practice-0.0.1-SNAPSHOT.jar > /home/ubuntu/nohup.out 2>&1 &
+            disown
 
             echo "⏳ Waiting for app to start"
             sleep 5
