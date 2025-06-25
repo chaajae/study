@@ -27,24 +27,10 @@ jobs:
 
             echo "🧱 Building project2"
             ./gradlew clean bootJar -x test --no-build-cache
-
-            echo "📦 Checking JAR file"
-            ls -al build/libs
-
-            echo "📍 Checking java info and environment"
-            which java || echo "❌ java not found"
-            java -version || echo "❌ java version check failed"
-            echo "PATH: $PATH"
-
         
-
             echo "🚀 Starting new app with disown"
             cd /home/ubuntu/study
             nohup java -Dspring.profiles.active=dev -jar build/libs/practice-0.0.1-SNAPSHOT.jar > /home/ubuntu/nohup.out 2>&1 &
-            disown
-
-            echo "⏳ Waiting for app to start"
-            sleep 5
 
             echo "📋 Running Java processes"
             ps -ef | grep java | grep -v grep || echo "❌ No running java process found"
