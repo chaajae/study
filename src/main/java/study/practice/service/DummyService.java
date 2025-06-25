@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import study.practice.domain.repo.dto.DmsDto;
 import study.practice.domain.repo.dto.Response;
 import study.practice.etc.function.Functions;
@@ -19,7 +18,6 @@ import java.util.Map;
 @Slf4j
 public class DummyService {
 
-    private final ExchangeRateOpenFeign exchangeRateOpenFeign;
     private Integer count = 0;
 
     public Response openFeignTest(String token, String uid){
@@ -27,7 +25,7 @@ public class DummyService {
         for (int i = 0; i < 5; i++) {
             param.put("data" + count , "데이터" + count++);
         }
-        return exchangeRateOpenFeign.put(token,uid,param);
+        return new Response();
     }
 
     public void convert(){
