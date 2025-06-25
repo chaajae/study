@@ -18,8 +18,8 @@ public class UserInfoService {
         return userInfoRepo.findAll();
     }
 
-    public void setUserInfoList() {
-        userInfoRepo.save(UserInfoEntity.builder().userName("차재현").userDescription("테스트").build());
+    public void setUserInfoList(List<UserInfoEntity> param) {
+        userInfoRepo.saveAll(param);
     }
 
 }
