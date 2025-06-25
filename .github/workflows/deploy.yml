@@ -36,7 +36,7 @@ jobs:
             sleep 3
           
             echo "🚀 Starting new app"
-            nohup java -Dspring.profiles.active=dev -jar build/libs/practice-0.0.1-SNAPSHOT.jar > build/libs/nohup.out 2>&1 &
+            nohup java -Dspring.profiles.active=dev -jar /home/ubuntu/study/build/libs/practice-0.0.1-SNAPSHOT.jar > /home/ubuntu/study/build/libs/nohup.out 2>&1 &
             
             echo "⏳ Waiting for app to start"
             sleep 5
@@ -45,4 +45,7 @@ jobs:
             ps -ef | grep java | grep -v grep
   
             echo "📝 Tail last 20 lines of nohup.out"
-            tail -n 20 ~/study/build/libs/nohup.out
+            tail -n 20 /home/ubuntu/study/build/libs/nohup.out
+            
+            echo "📝 nohup.out 전체 출력 (임시)"
+            cat /home/ubuntu/study/build/libs/nohup.out
