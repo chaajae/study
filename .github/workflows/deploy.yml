@@ -33,7 +33,10 @@ jobs:
             if [ -n "$PID" ]; then
             echo "📌 Killing PID $PID"
             kill $PID
-            sleep 3
+            while kill -0 "$PID" >/dev/null 2>&1; do
+            echo "⏳ Waiting for process $PID to exit..."
+            sleep 1
+            done
             else
             echo "ℹ️ No existing process found"
             fi
