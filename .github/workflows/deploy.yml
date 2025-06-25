@@ -24,7 +24,7 @@ jobs:
             echo "🔁 Pulling latest code"
             cd /home/ubuntu/study
             git pull origin master
-          
+            
             echo "🧱 Building project"
             ./gradlew clean bootJar -x test --no-build-cache
           
@@ -35,14 +35,21 @@ jobs:
             pkill -f 'java -jar' || true
             sleep 3
           
-            echo "🚀 Starting new app"
+            echo "🚀 Starting new app with full diagnostics"
             nohup /usr/bin/java -Dspring.profiles.active=dev -jar build/libs/practice-0.0.1-SNAPSHOT.jar > /home/ubuntu/nohup.out 2>&1 &
-            
-            echo "⏳ Waiting for app to start"
             sleep 5
+          
+            echo "🔍 Checking if nohup.out was created"
+            if [ -f /home/ubuntu/nohup.out ]; then
+              echo "✅ nohup.out exists"
+              tail -n 30 /home/ubuntu/nohup.out
+            else
+              echo "❌ nohup.out was NOT created"
+            fi
           
             echo "📋 Running processes"
             ps -ef | grep java | grep -v grep
-  
-            echo "📝 Tail last 20 lines of nohup.out"
-            tail -n 20 /home/ubuntu/nohup.out
+          
+            echo "🔁 Retrying manual execution if needed"
+            echo "You can run manually: nohup java -Dspring.profiles.active=dev -jar build/libs/practice-0.0.1-SNAPSHOT.jar > ~/nohup.out 2>&1 &"
+
