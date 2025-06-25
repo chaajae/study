@@ -36,9 +36,7 @@ jobs:
             java -version || echo "❌ java version check failed"
             echo "PATH: $PATH"
 
-            echo "🛑 Stopping existing app (if any)"
-            pkill -f 'java -jar' || true
-            sleep 3
+        
 
             echo "🚀 Starting new app with disown"
             cd /home/ubuntu/study
