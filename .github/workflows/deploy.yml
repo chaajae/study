@@ -25,7 +25,7 @@ jobs:
             cd /home/ubuntu/study
             git pull origin master
 
-            echo "🧱 Building project"
+            echo "🧱 Building project2"
             ./gradlew clean bootJar -x test --no-build-cache
 
             echo "📦 Checking JAR file"
