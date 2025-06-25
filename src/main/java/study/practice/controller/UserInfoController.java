@@ -45,10 +45,10 @@ public class UserInfoController {
         return response;
     }
 
-    @PostMapping("/comboBox2")
-    public Response getComboBox2(){
+    @PostMapping("/comboBox3")
+    public Response getComboBox3(){
         Response response = new Response();
-        response.setData(Map.of("comboBox2","comboBox Datas2"));
+        response.setData(Map.of("comboBox3","comboBox Datas3"));
         return response;
     }
 }
