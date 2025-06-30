@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mariadb://first-machine-db.c3u6uwaq4c7b.ap-northeast-2.rds.amazonaws.com:23306/PRACTICEDB
-    username: root
-    password: rhyme4109!
-    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/PRACTICEDB?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ict
+    password: 1111
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       naming:
